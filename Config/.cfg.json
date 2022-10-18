@@ -1,0 +1,4 @@
+{
+    "frontend_addr":":6062",
+    "backend_addr":":6060"
+}
