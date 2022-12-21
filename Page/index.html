@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Simple Base64 Encode & Decode Tool</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div id="vue_obj" class="box">
+        <h2 class="title">Sweet Base64</h2>
+        <div class="inputArea">
+            <textarea v-model="input" type="text" placeholder="{{input}}" class="inputBox"></textarea>
+        </div>
+
+        <div class="btn">
+            <button @click="Encode">编码 Encode</button>
+            <button @click="Decode">解码 Decode</button>
+            <button @click="Switch">交换 Switch</button>
+            <input type="file" @change="Upload"></input>
+        </div>
+
+        <div class="outputArea">
+            <textarea v-model="output" type="text" placeholder="{{output}}" class="outputBox"></textarea>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<style>
+    .box {
+        width: 100%;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .title {
+        display: flex;
+        justify-content: left;
+        margin-left: 14%;
+        margin-top: 5%;
+    }
+
+    .inputArea {
+        top: 20px;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .inputBox {
+        /* width: 40%;
+        margin-right: 10px; */
+        display: flex;
+        justify-content: center;
+        width: 70%;
+        /* height: 200px; */
+        border-radius: 10px;
+        padding-top: 10px;
+        padding-bottom: 100px;
+        padding-left: 10px;
+        padding-right: 10px;
+        word-break: break-all;
+
+        font-size: 15px;
+        color: cornflowerblue;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 20px;
+    }
+
+    .outputArea {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .outputBox {
+        display: flex;
+        justify-content: center;
+        width: 70%;
+        /* height: 200px; */
+        border-radius: 10px;
+        padding-top: 10px;
+        padding-bottom: 130px;
+        padding-left: 10px;
+        padding-right: 10px;
+        word-break: break-all;
+
+        font-size: 15px;
+        color: blueviolet;
+    }
+</style>
+
+<script>
+    const baseUrl = "http://localhost:6060"
+    var vm = new Vue({
+        el: "#vue_obj",
+        data: {
+            input: "请输入要转换的内容",
+            output: " "
+        },
+        methods: {
+            //编码
+            Encode() {
+                // console.log("encode")
+                axios({
+                    url: baseUrl + "/base64",
+                    method: "post",
+                    data: this.input,
+                    params: {
+                        choice: "encode"
+                    }
+                })
+                    .then(res => {
+                        this.output = res.data
+                        console.log("encode successfully")
+                    })
+                    .catch(err => {
+                        alert("[ERROR] Please Check Your Input!")
+                        console.log("encode error: " + err)
+                    })
+            },
+            //解码
+            Decode() {
+
+                //先清空output
+                this.output = ""
+
+                axios({
+                    url: baseUrl + "/base64",
+                    method: "post",
+                    data: this.input,
+                    params: {
+                        choice: "decode"
+                    }
+                })
+                    .then(res => {
+                        if (typeof (res.data) != "string") {
+                            this.output = JSON.stringify(res.data)
+                        }
+                        else {
+                            this.output = res.data
+                        }
+                        console.log(res.data)
+                        console.log("decode successfully")
+                    })
+                    .catch(err => {
+                        alert("[ERROR] Please Check Your Input!")
+                        console.log("decode error: " + err)
+                    })
+            },
+
+            //交换输入和输出
+            Switch() {
+                var temp = this.input
+                this.input = this.output
+                this.output = temp
+            },
+            //上传文件
+            Upload(e) {
+                
+                //先清空输出栏
+                this.output = ""
+
+                let file = e.target.files[0];
+                let formData = new FormData();
+                formData.append('b64_upload', file);
+
+                axios({
+                    url: baseUrl + "/file2base64",
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    data: formData
+                })
+                    .then(res => {
+                        //清空文件列表
+                        delete e.target.files[0]
+                        // console.log(e.target.files)
+                        this.output = res.data
+                        console.log(res.data)
+                        console.log("file encode successfully")
+                    })
+                    .catch(err => {
+                        alert("[ERROR] Please Check Your Input!")
+                        console.log("file encode error: " + err)
+                    })
+            }
+        }
+
+    })
+</script>
