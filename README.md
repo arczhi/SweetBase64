@@ -1,5 +1,7 @@
 ## Sweet Base64
 
+[![Security Status](https://www.murphysec.com/platform3/v3/badge/1617956857323237376.svg?t=1)](https://www.murphysec.com/accept?code=b18b786266a0ffa1ff05d078b6b42b97&type=1&from=2&t=2)
+
 #### 1. 一个简单的Base64编码解码工具
 
 **A Simple Base64 Encode & Decode Tool**
