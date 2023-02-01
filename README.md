@@ -4,9 +4,9 @@
 
 **A Simple Base64 Encode & Decode Tool**
 
-#### 2.易用 轻量 安全 快速部署
+#### 2.易用 轻量 快速部署
 
-**Easy  &  Lightweight  &  Safe  &  FastToDeploy**
+**Easy  &  Lightweight  &  FastToDeploy**
 
 #### 3.网页和后台服务分离
 
@@ -23,7 +23,7 @@
 > 3. 本项目源码不涉及对文本和文件的存储
 > 3. 部署时仅需在项目根目录下执行 ./Windows_ver.exe 或 ./Linux_ver
 
-#### 5.安全认证
+#### 5.已获得开源安全社区OSCS的安全认证
 
 [![Security Status](https://www.murphysec.com/platform3/v3/badge/1617956857323237376.svg?t=1)](https://www.murphysec.com/accept?code=b18b786266a0ffa1ff05d078b6b42b97&type=1&from=2&t=2)
 
